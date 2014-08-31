@@ -1960,6 +1960,27 @@ void Func::compile_to_bitcode(const string &filename, vector<Argument> args, con
     compile_to_bitcode(filename, args, "", target);
 }
 
+void Func::compile_to_llvm_assembly(const string &filename, vector<Argument> args, const string &fn_name,
+                                const Target &target) {
+    user_assert(defined()) << "Can't compile undefined Func.\n";
+
+    lower(target);
+
+    vector<Buffer> images_to_embed;
+    validate_arguments(name(), args, lowered, images_to_embed);
+
+    for (int i = 0; i < outputs(); i++) {
+        args.push_back(output_buffers()[i]);
+    }
+
+    StmtCompiler cg(target);
+    cg.compile(lowered, fn_name.empty() ? name() : fn_name, args, images_to_embed);
+    cg.compile_to_llvm_assembly(filename);
+}
+
+void Func::compile_to_llvm_assembly(const string &filename, vector<Argument> args, const Target &target) {
+    compile_to_llvm_assembly(filename, args, "", target);
+}
 void Func::compile_to_object(const string &filename, vector<Argument> args,
                              const string &fn_name, const Target &target) {
     user_assert(defined()) << "Can't compile undefined Func.\n";

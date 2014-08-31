@@ -409,6 +409,18 @@ void CodeGen::compile_to_bitcode(const string &filename) {
     WriteBitcodeToFile(module, out);
 }
 
+void CodeGen::compile_to_llvm_assembly(const string &filename) {
+    internal_assert(module) << "No module defined. Must call compile before calling compile_to_llvm_assembly.\n";
+
+    string error_string;
+#if LLVM_VERSION < 35
+    raw_fd_ostream out(filename.c_str(), error_string);
+#else
+    raw_fd_ostream out(filename.c_str(), error_string, llvm::sys::fs::F_None);
+#endif
+    module->print(out, nullptr);
+}
+
 void CodeGen::compile_to_native(const string &filename, bool assembly) {
     internal_assert(module) << "No module defined. Must call compile before calling compile_to_native\n";
 
@@ -1165,7 +1177,8 @@ void CodeGen::visit(const Load *op) {
         add_tbaa_metadata(load, op->name, op->index);
         value = load;
     } else {
-        int alignment = op->type.bytes(); // The size of a single element
+        //int alignment = op->type.bytes(); // The size of a single element
+        int alignment = op->type.bytes() * op->type.width; // The size of a single element
         const Ramp *ramp = op->index.as<Ramp>();
         const IntImm *stride = ramp ? ramp->stride.as<IntImm>() : NULL;
 

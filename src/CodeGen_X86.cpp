@@ -667,15 +667,15 @@ string CodeGen_X86::mattrs() const {
     // These attrs only exist in llvm 3.5+
     if (target.features & Target::FMA) {
         features += "+fma";
-        separator = " ";
+        separator = ",";
     }
     if (target.features & Target::FMA4) {
         features += separator + "+fma4";
-        separator = " ";
+        separator = ",";
     }
     if (target.features & Target::F16C) {
         features += separator + "+f16c";
-        separator = " ";
+        separator = ",";
     }
     #endif
     return features;

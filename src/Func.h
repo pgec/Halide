@@ -527,6 +527,16 @@ public:
                                    const Target &target = get_target_from_environment());
     // @}
 
+    /** Statically compile this function to LLVM assembly with the
+     * given filename (which should probably end in .ll). The output
+     * is similar to the --emit-llvm clang option. For debugging. */
+    //@{
+    EXPORT void compile_to_llvm_assembly(const std::string &filename, std::vector<Argument>, const std::string &fn_name,
+                                   const Target &target = get_target_from_environment());
+    EXPORT void compile_to_llvm_assembly(const std::string &filename, std::vector<Argument>,
+                                   const Target &target = get_target_from_environment());
+    // @}
+
     /** Statically compile this function to an object file, with the
      * given filename (which should probably end in .o or .obj), type
      * signature, and C function name (which defaults to the same name

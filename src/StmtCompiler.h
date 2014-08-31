@@ -39,6 +39,9 @@ public:
     /** Write the module to an llvm bitcode file */
     void compile_to_bitcode(const std::string &filename);
 
+    /** Write the module to an llvm assembly file */
+    void compile_to_llvm_assembly(const std::string &filename);
+
     /** Compile and write the module to either a binary object file,
      * or as assembly */
     void compile_to_native(const std::string &filename, bool assembly = false);

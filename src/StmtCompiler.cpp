@@ -51,6 +51,10 @@ void StmtCompiler::compile_to_bitcode(const string &filename) {
     contents.ptr->compile_to_bitcode(filename);
 }
 
+void StmtCompiler::compile_to_llvm_assembly(const string &filename) {
+    contents.ptr->compile_to_llvm_assembly(filename);
+}
+
 void StmtCompiler::compile_to_native(const string &filename, bool assembly) {
     contents.ptr->compile_to_native(filename, assembly);
 }

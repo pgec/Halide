@@ -66,6 +66,10 @@ public:
      * after calling compile. */
     virtual void compile_to_bitcode(const std::string &filename);
 
+    /** Emit a compiled halide statement as llvm assembly 'similar to --emit-llvm 
+     * clang option). Call this after calling compile. */    
+    virtual void compile_to_llvm_assembly(const std::string &filename);
+
     /** Emit a compiled halide statement as either an object file, or
      * as raw assembly, depending on the value of the second
      * argument. Call this after calling compile. */
